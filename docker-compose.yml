@@ -1,5 +1,8 @@
 version: "3"
 
+volumes:
+  dbvolume:
+
 services:
   db:
     image: postgres
@@ -7,6 +10,10 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - dbvolume:/var/lib/postgresql/data
+    # ports:
+    #   - "5432:5432"
   web:
     build: ./docker/web
     command: uwsgi --socket :8001 --module mysite.wsgi
